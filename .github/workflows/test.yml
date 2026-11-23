@@ -79,8 +79,8 @@ jobs:
           atuin --version
           printf '%s\n' '--- a/f' '+++ b/f' '@@ -1 +1 @@' '-old' '+new' | diff-so-fancy >/dev/null
 
-          # The optional environments' configs parse too.
-          MISE_ENV=workbench,personal mise ls --missing >/dev/null
+          # The optional personal config parses too.
+          MISE_ENV=personal mise ls --missing >/dev/null
 
       - name: Check Git, Emacs, tmux, Prezto and Atuin
         shell: bash
@@ -105,16 +105,10 @@ jobs:
           test "$(git_config user.email)" = pfrybar@frymail.net
           test "$(git_config user.signingKey)" = '~/.ssh/git_signing_key'
 
-          # gh supplies GitHub credentials; a stub stands in for it.
-          stub_bin="$RUNNER_TEMP/stub-bin"
-          mkdir -p "$stub_bin"
-          printf '%s\n' '#!/bin/sh' \
-            '[ "$*" = "auth git-credential get" ] && printf "username=stub\npassword=from-gh\n"' \
-            > "$stub_bin/gh"
-          chmod +x "$stub_bin/gh"
-          printf 'protocol=https\nhost=github.com\n\n' \
-            | PATH="$stub_bin:$PATH" GIT_TERMINAL_PROMPT=0 git credential fill \
-            | grep -qx 'password=from-gh'
+          # The shared config leaves credential helpers to the machine.
+          if git config --file home/dot-gitconfig --get-regexp '^credential[.]'; then
+            exit 1
+          fi
 
           # ~/.gitconfig.local is included last, so it overrides tracked values.
           git config --file "$HOME/.gitconfig.local" user.email work@example.com

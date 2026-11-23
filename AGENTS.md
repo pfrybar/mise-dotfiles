@@ -9,8 +9,7 @@ for people setting up a machine.
 
 - `config.toml`: tools for every machine, the Prezto clone, the dotfiles copy
   and the `bootstrap` task.
-- `config.workbench.toml`, `config.personal.toml`: extra tools for
-  `mise -E workbench` (coding agents) and `mise -E personal`.
+- `config.personal.toml`: extra tools for `mise -E personal`.
 - `home/dot-*`: copied to `~/.*`, so `home/dot-zshrc` becomes `~/.zshrc`. Edit
   them here: the next bootstrap overwrites edits made in `~`.
 - `post-install.sh`: the `bootstrap` task. It runs on every bootstrap, so keep

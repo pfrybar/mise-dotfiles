@@ -7,11 +7,16 @@ installation and dotfile configuration.
 
 ### Mise only
 
+```sh
 mise -E personal bootstrap \
   --from https://github.com/pfrybar/mise-dotfiles.git \
   --from-dir ~/.dotfiles \
   --config-dir . \
   --save-env
+```
+
+Machine-specific Git settings, including credential helpers, can go in
+`~/.gitconfig.local`. The bootstrap preserves that file.
 
 ### Full macOS setup
 
@@ -63,6 +68,5 @@ mise bootstrap repos update ~/.zprezto
 
 GitHub Actions checks the installer on Linux and macOS, including the Apple
 Silicon Homebrew environment. It also tests configuration syntax, Git, Emacs,
-Emacs package installation, Claude Code onboarding, tmux, Prezto startup, and
-Atuin initialization.
+Emacs package installation, tmux, Prezto startup, and Atuin initialization.
 See the workflow for details.
